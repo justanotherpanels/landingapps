@@ -1,0 +1,13 @@
+DATABASE_URL=postgresql://postgres:EvGksKVCrRnDpuOAdfbEKARspAz1ZhGo0DXFH0jmdT4MBi4tQj9AQhNJeu526LM6@202.74.74.145:5444/postgres
+
+# Brevo (formerly Sendinblue) Configuration
+BREVO_API_KEY=your_brevo_api_key_here
+BREVO_SMTP_SERVER=smtp-relay.brevo.com
+BREVO_SMTP_PORT=587
+BREVO_SMTP_USER=your_brevo_email@example.com
+BREVO_SMTP_PASSWORD=your_brevo_smtp_password_here
+BREVO_FROM_EMAIL=noreply@paylaterku.net
+BREVO_FROM_NAME=Paylaterku
+
+# Authentication
+JWT_SECRET=super_secret_jwt_key_paylaterku_2026

@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  nama_lengkap String
+  username     String   @unique
+  no_hp        String   @unique
+  email        String?  @unique
+  password     String
+  level        String   @default("Member") // Admin, Member
+  status       String   @default("Pending") // Not-Active, Pending, Active
+  kode_otp     String?
+  create_at    DateTime @default(now())
+  update_at    DateTime @updatedAt
+  transaksis   Transaksi[]
+}
+
+model Platform {
+  id           String   @id @default(cuid())
+  name         String
+  image_url    String?
+  create_at    DateTime @default(now())
+  update_at    DateTime @updatedAt
+  panduans     Panduan[]
+  transaksis   Transaksi[]
+}
+
+model Panduan {
+  id           String   @id @default(cuid())
+  id_platform  String
+  name         String
+  slug         String   @unique
+  status       String   @default("Active") // Active, Maintenance, Not-Active
+  content      String   // format JSON
+  create_at    DateTime @default(now())
+  update_at    DateTime @updatedAt
+  platform     Platform @relation(fields: [id_platform], references: [id])
+}
+
+model Transaksi {
+  id               String   @id @default(cuid())
+  id_user          String
+  id_platform      String
+  kode_invoice     String   @unique
+  detail_transaksi String   // format JSON
+  dana_diterima    Float
+  biaya_admin      Float
+  status           String   @default("Request") // Request, Proses, Kriling, Dikirim, Selesai
+  nama_penerima    String
+  tipe             String   // Kartu Kredit, Pay Later
+  bank             String
+  rekening         String
+  create_at        DateTime @default(now())
+  update_at        DateTime @updatedAt
+  user             User     @relation(fields: [id_user], references: [id])
+  platform         Platform @relation(fields: [id_platform], references: [id])
+}
+
+model AdminFee {
+  id               String   @id @default(cuid())
+  min_transaksi    Float
+  max_transaksi    Float
+  nilai_persentase Float
+  create_at        DateTime @default(now())
+  update_at        DateTime @updatedAt
+}

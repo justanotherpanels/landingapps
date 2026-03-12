@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { getUserAction } from '@/app/actions/auth';
 import {
     Bell,
     Wallet,
@@ -49,6 +50,17 @@ const services = [
 
 export default function App() {
     const [activeTab, setActiveTab] = useState('home');
+    const [user, setUser] = useState<{ nama_lengkap: string } | null>(null);
+
+    useEffect(() => {
+        async function fetchUser() {
+            const userData = await getUserAction();
+            if (userData) {
+                setUser(userData);
+            }
+        }
+        fetchUser();
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-100 flex justify-center font-sans tracking-tight">
@@ -64,8 +76,8 @@ export default function App() {
                             <Link href="/user/account" className="flex items-center gap-4 group hover:opacity-80 transition-opacity">
                                 <div className="w-12 h-12 rounded-full bg-orange-100 border-2 border-orange-200 flex items-center justify-center text-orange-600 font-bold text-lg overflow-hidden shrink-0 group-hover:border-orange-400 transition-colors">
                                     <img
-                                        src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=ffedd5"
-                                        alt="Avatar Budi Santoso"
+                                        src={`https://api.dicebear.com/7.x/notionists/svg?seed=${user?.nama_lengkap || 'User'}&backgroundColor=ffedd5`}
+                                        alt={`Avatar ${user?.nama_lengkap || 'User'}`}
                                         className="w-full h-full object-cover"
                                         width="48"
                                         height="48"
@@ -74,7 +86,9 @@ export default function App() {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-xs text-gray-600 font-medium mb-0.5">Selamat datang kembali,</span>
-                                    <h1 className="font-bold text-gray-900 text-lg leading-tight">Budi Santoso</h1>
+                                    <h1 className="font-bold text-gray-900 text-lg leading-tight">
+                                        {user?.nama_lengkap || 'Loading...'}
+                                    </h1>
                                 </div>
                             </Link>
                             <Link

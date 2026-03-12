@@ -47,6 +47,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.8,
         },
+        {
+            url: `${baseUrl}/auth/register`,
+            lastModified,
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/auth/forget`,
+            lastModified,
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
         ...cityRoutes,
         ...infoRoutes,
     ]

@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { getUserAction } from '@/app/actions/auth';
 import {
     User,
     Shield,
@@ -22,9 +23,21 @@ import {
     Info,
     ArrowRight
 } from 'lucide-react';
+import { logoutAction } from "@/app/actions/auth";
 
 export default function AccountPage() {
     const [activeTab, setActiveTab] = useState('profile');
+    const [user, setUser] = useState<{ nama_lengkap: string; no_hp: string; email: string | null } | null>(null);
+
+    useEffect(() => {
+        async function fetchUser() {
+            const userData = await getUserAction();
+            if (userData) {
+                setUser(userData as any);
+            }
+        }
+        fetchUser();
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-100 flex justify-center font-sans tracking-tight">
@@ -44,8 +57,8 @@ export default function AccountPage() {
                             <div className="relative">
                                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-orange-100 border-4 border-white shadow-xl flex items-center justify-center text-orange-600 font-bold text-2xl overflow-hidden shrink-0">
                                     <img
-                                        src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=ffedd5"
-                                        alt="Avatar Budi Santoso"
+                                        src={`https://api.dicebear.com/7.x/notionists/svg?seed=${user?.nama_lengkap || 'User'}&backgroundColor=ffedd5`}
+                                        alt={`Avatar ${user?.nama_lengkap || 'User'}`}
                                         className="w-full h-full object-cover"
                                         width="128"
                                         height="128"
@@ -59,11 +72,15 @@ export default function AccountPage() {
                             
                             <div className="mt-4 text-center">
                                 <div className="flex items-center justify-center gap-2">
-                                    <h1 className="font-bold text-gray-900 text-xl md:text-2xl leading-tight">Budi Santoso</h1>
+                                    <h1 className="font-bold text-gray-900 text-xl md:text-2xl leading-tight">
+                                        {user?.nama_lengkap || 'Loading...'}
+                                    </h1>
                                     <CheckCircle2 className="w-5 h-5 text-blue-500 fill-blue-50" />
                                 </div>
                                 <p className="text-gray-500 text-sm font-medium mt-1 uppercase tracking-wider">Premium Member</p>
-                                <div className="mt-2 text-xs text-gray-400 font-medium">+62 812 *** 7890 • budi.s@example.com</div>
+                                <div className="mt-2 text-xs text-gray-400 font-medium">
+                                    {user ? `${user.no_hp} • ${user.email || 'Email belum diatur'}` : 'Memuat data...'}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -121,7 +138,16 @@ export default function AccountPage() {
 
                     {/* Logout Button */}
                     <section className="px-6 md:px-10 mt-10 mb-10">
-                        <button className="w-full flex items-center justify-center gap-3 py-4 bg-white border-2 border-red-50 text-red-600 font-bold rounded-2xl hover:bg-red-50 transition-colors group">
+                        <button 
+                            onClick={async () => {
+                                try {
+                                    await logoutAction();
+                                } catch (error) {
+                                    console.error("Logout failed:", error);
+                                }
+                            }}
+                            className="w-full flex items-center justify-center gap-3 py-4 bg-white border-2 border-red-50 text-red-600 font-bold rounded-2xl hover:bg-red-50 transition-colors group"
+                        >
                             <LogOut className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                             Keluar Akun
                         </button>

@@ -2,49 +2,55 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
     Eye,
     EyeOff,
+    User,
     Lock,
     ArrowRight,
-    Phone,
     ShieldCheck,
     ChevronLeft,
 } from "lucide-react";
+import { loginAction } from "@/app/actions/auth";
 
 export default function LoginPage() {
+    const searchParams = useSearchParams();
+    const registeredSuccess = searchParams.get("registered") === "success";
+
     const [showPassword, setShowPassword] = useState(false);
-    const [phone, setPhone] = useState("");
+    const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        // Simulate loading
-        setTimeout(() => {
+        setErrorMessage("");
+
+        const result = await loginAction(identifier, password);
+        
+        if (result?.error) {
+            setErrorMessage(result.error);
             setIsLoading(false);
+        } else if (result?.success) {
             window.location.href = "/user";
-        }, 1500);
+        }
     };
 
     return (
         <div
             className="min-h-screen w-full font-sans flex flex-col"
             style={{
-                background:
-                    "linear-gradient(160deg, #0f0c29 0%, #1a1040 40%, #0f1a2e 100%)",
+                background: "linear-gradient(160deg, #0f0c29 0%, #1a1040 40%, #0f1a2e 100%)",
             }}
         >
             {/* Ambient Glow */}
             <div className="pointer-events-none fixed inset-0 overflow-hidden">
                 <div
                     className="absolute -top-32 left-1/2 -translate-x-1/2 h-[400px] w-[400px] rounded-full opacity-20 blur-[100px]"
-                    style={{ background: "radial-gradient(circle, #6366f1, transparent)" }}
-                />
-                <div
-                    className="absolute bottom-0 right-0 h-[300px] w-[300px] rounded-full opacity-15 blur-[100px]"
-                    style={{ background: "radial-gradient(circle, #10b981, transparent)" }}
+                    style={{ background: "radial-gradient(circle, #f97316, transparent)" }}
                 />
             </div>
 
@@ -86,30 +92,39 @@ export default function LoginPage() {
                     <div
                         className="relative overflow-hidden rounded-3xl p-0.5 shadow-2xl"
                         style={{
-                            background:
-                                "linear-gradient(135deg, rgba(99,102,241,0.5), rgba(16,185,129,0.2))",
+                            background: "linear-gradient(135deg, rgba(249,115,22,0.4), rgba(79,70,229,0.2))",
                         }}
                     >
                         <div
                             className="rounded-[22px] p-6 sm:p-8"
                             style={{ background: "linear-gradient(135deg, #1a1730, #111827)" }}
                         >
+                            {registeredSuccess && (
+                                <div className="mb-6 rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-4 text-xs text-emerald-500 text-center">
+                                    Pendaftaran berhasil! Silakan masuk ke akun Anda.
+                                </div>
+                            )}
+                            {errorMessage && (
+                                <div className="mb-6 rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-xs text-red-500 text-center animate-pulse">
+                                    {errorMessage}
+                                </div>
+                            )}
                             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                                {/* Phone Field */}
+                                {/* Identifier Field */}
                                 <div className="flex flex-col gap-2">
-                                    <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest">
-                                        Nomor HP / Email
+                                    <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest pl-1">
+                                        Username / Nomor HP / Email
                                     </label>
                                     <div className="relative">
                                         <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center">
-                                            <Phone size={18} className="text-slate-500" />
+                                            <User size={18} className="text-slate-500" />
                                         </div>
                                         <input
                                             type="text"
-                                            value={phone}
-                                            onChange={(e) => setPhone(e.target.value)}
-                                            placeholder="08xxxxxxxxxx atau email@..."
-                                            className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-12 pr-4 text-sm text-white placeholder-slate-600 outline-none transition-all focus:border-orange-500/60 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20"
+                                            value={identifier}
+                                            onChange={(e) => setIdentifier(e.target.value)}
+                                            placeholder="Masukkan akun Anda"
+                                            className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-12 pr-4 text-sm text-white placeholder:text-slate-600 outline-none transition-all focus:border-orange-500/60 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20"
                                             required
                                         />
                                     </div>
@@ -118,12 +133,12 @@ export default function LoginPage() {
                                 {/* Password Field */}
                                 <div className="flex flex-col gap-2">
                                     <div className="flex items-center justify-between">
-                                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest">
+                                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest pl-1">
                                             Password
                                         </label>
                                         <Link
-                                            href="/auth/forgot-password"
-                                            className="text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors"
+                                            href="/auth/forget"
+                                            className="text-xs font-semibold text-orange-400 hover:text-orange-300 transition-colors"
                                         >
                                             Lupa password?
                                         </Link>
@@ -175,22 +190,6 @@ export default function LoginPage() {
                                     )}
                                 </button>
                             </form>
-
-                            {/* Divider */}
-                            <div className="my-6 flex items-center gap-4">
-                                <div className="h-px flex-1 bg-white/10" />
-                                <span className="text-xs text-slate-600">atau</span>
-                                <div className="h-px flex-1 bg-white/10" />
-                            </div>
-
-                            {/* Social / OTP Login */}
-                            <button
-                                type="button"
-                                className="flex w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 py-4 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/10 active:scale-95"
-                            >
-                                <Phone size={18} className="text-emerald-400" />
-                                Masuk dengan OTP WhatsApp
-                            </button>
                         </div>
                     </div>
 
