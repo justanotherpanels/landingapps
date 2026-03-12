@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
     Eye,
     EyeOff,
-    Landmark,
     Lock,
     ArrowRight,
     Phone,
@@ -66,20 +65,17 @@ export default function LoginPage() {
 
                     {/* Logo */}
                     <div className="mb-8 flex flex-col items-center text-center sm:mb-10">
-                        <div
-                            className="mb-4 flex h-16 w-16 items-center justify-center rounded-3xl shadow-2xl"
-                            style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}
-                        >
-                            <Landmark size={30} className="text-white" />
-                        </div>
+                        <Link href="/" className="mb-4 block">
+                            <img src="/logo.png" alt="Paylaterku Logo" className="h-16 w-auto object-contain" />
+                        </Link>
                         <h1 className="text-2xl font-black text-white sm:text-3xl">
-                            Masuk ke GestunKu
+                            Masuk ke Paylaterku
                         </h1>
                         <p className="mt-2 text-sm text-slate-400">
                             Belum punya akun?{" "}
                             <Link
                                 href="/auth/register"
-                                className="font-semibold text-violet-400 hover:text-violet-300 transition-colors"
+                                className="font-semibold text-orange-400 hover:text-orange-300 transition-colors"
                             >
                                 Daftar gratis
                             </Link>
@@ -113,7 +109,7 @@ export default function LoginPage() {
                                             value={phone}
                                             onChange={(e) => setPhone(e.target.value)}
                                             placeholder="08xxxxxxxxxx atau email@..."
-                                            className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-12 pr-4 text-sm text-white placeholder-slate-600 outline-none transition-all focus:border-violet-500/60 focus:bg-white/10 focus:ring-2 focus:ring-violet-500/20"
+                                            className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-12 pr-4 text-sm text-white placeholder-slate-600 outline-none transition-all focus:border-orange-500/60 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20"
                                             required
                                         />
                                     </div>
@@ -141,7 +137,7 @@ export default function LoginPage() {
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                             placeholder="Masukkan password"
-                                            className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-12 pr-12 text-sm text-white placeholder-slate-600 outline-none transition-all focus:border-violet-500/60 focus:bg-white/10 focus:ring-2 focus:ring-violet-500/20"
+                                            className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-12 pr-12 text-sm text-white placeholder-slate-600 outline-none transition-all focus:border-orange-500/60 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20"
                                             required
                                         />
                                         <button
@@ -161,9 +157,9 @@ export default function LoginPage() {
                                     className="relative mt-2 flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-2xl py-4 text-sm font-bold text-white shadow-xl transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
                                     style={{
                                         background: isLoading
-                                            ? "linear-gradient(135deg, #4f46e5, #7c3aed)"
-                                            : "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                        boxShadow: "0 8px 32px rgba(99,102,241,0.35)",
+                                            ? "linear-gradient(135deg, #ea580c, #c2410c)"
+                                            : "linear-gradient(135deg, #f97316, #ea580c)",
+                                        boxShadow: "0 8px 32px rgba(234,88,12,0.35)",
                                     }}
                                 >
                                     {isLoading ? (

@@ -2,7 +2,6 @@ import {
     ArrowRight,
     BadgeCheck,
     CreditCard,
-    Landmark,
     MessageCircle,
     ShieldCheck,
     Sparkles,
@@ -100,26 +99,16 @@ export default function CityLandingPage({
             {/* =========== HEADER =========== */}
             <header className="sticky top-0 z-50 border-b border-white/5 bg-black/40 backdrop-blur-md">
                 <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 md:px-8">
-                    <div className="flex items-center gap-2.5">
-                        <div
-                            className="flex h-9 w-9 items-center justify-center rounded-xl"
-                            style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}
-                            aria-hidden="true"
-                        >
-                            <Landmark size={18} className="text-white" />
-                        </div>
-                        <div>
-                            <span className="text-lg font-black tracking-tight text-white">Paylaterku</span>
-                            <span className="ml-1.5 rounded-md bg-violet-500/20 px-1.5 py-0.5 text-[10px] font-bold text-violet-300">PRO</span>
-                        </div>
-                    </div>
+                    <Link href="/" className="flex items-center gap-2.5">
+                        <img src="/logo.png" alt="Paylaterku Logo" className="h-10 w-auto object-contain" />
+                    </Link>
 
                     <Link
                         href="/auth/login"
-                        className="flex items-center gap-2 rounded-full bg-emerald-500 px-4 py-2 text-xs font-bold text-white shadow-lg shadow-emerald-500/30 transition-all hover:bg-emerald-400 active:scale-95 sm:text-sm sm:px-5"
+                        className="flex items-center gap-2 rounded-full bg-orange-600 px-4 py-2 text-xs font-bold text-white shadow-lg shadow-orange-600/30 transition-all hover:bg-orange-500 active:scale-95 sm:text-sm sm:px-5"
                     >
                         <Zap size={14} className="fill-white" aria-hidden="true" />
-                        <span>Masuk Akun</span>
+                        <span>Cairkan Sekarang</span>
                     </Link>
                 </div>
             </header>
@@ -150,7 +139,7 @@ export default function CityLandingPage({
                             <div className="flex flex-col gap-3 sm:flex-row">
                                 <Link
                                     href="/auth/login"
-                                    className="group flex items-center justify-center gap-2.5 rounded-2xl bg-emerald-500 px-6 py-4 text-sm font-bold text-white shadow-xl shadow-emerald-500/30 transition-all hover:bg-emerald-400 active:scale-95"
+                                    className="group flex items-center justify-center gap-2.5 rounded-2xl bg-orange-600 px-6 py-4 text-sm font-bold text-white shadow-xl shadow-orange-600/30 transition-all hover:bg-orange-500 active:scale-95"
                                 >
                                     <Zap size={18} className="fill-white" aria-hidden="true" />
                                     Cairkan Sekarang
@@ -315,7 +304,7 @@ export default function CityLandingPage({
                             </p>
                             <Link
                                 href="/auth/login"
-                                className="inline-flex items-center gap-3 rounded-2xl bg-emerald-500 px-6 py-4 text-sm font-bold text-white shadow-xl shadow-emerald-500/30 transition-all hover:bg-emerald-400 active:scale-95 sm:text-base"
+                                className="inline-flex items-center gap-3 rounded-2xl bg-orange-600 px-6 py-4 text-sm font-bold text-white shadow-xl shadow-orange-600/30 transition-all hover:bg-orange-500 active:scale-95 sm:text-base"
                             >
                                 <Zap size={20} className="fill-white" aria-hidden="true" />
                                 Mulai Sekarang
@@ -328,7 +317,7 @@ export default function CityLandingPage({
                 {/* Footer */}
                 <footer className="border-t border-white/5 py-6 text-center">
                     <p className="text-xs text-slate-400">
-                        © 2026 Paylaterku {cityName} · Jasa Gestun Terpercaya · Semua hak dilindungi
+                        © {new Date().getFullYear()} Paylaterku
                     </p>
                 </footer>
             </main>
@@ -337,10 +326,10 @@ export default function CityLandingPage({
             <div className="sticky bottom-0 z-50 border-t border-white/5 bg-black/50 p-3 backdrop-blur-xl md:hidden">
                 <Link
                     href="/auth/login"
-                    className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-emerald-500 py-4 text-sm font-bold text-white shadow-xl shadow-emerald-500/30 transition-all hover:bg-emerald-400 active:scale-95"
+                    className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-orange-600 py-4 text-sm font-bold text-white shadow-xl shadow-orange-600/30 transition-all hover:bg-orange-500 active:scale-95"
                 >
                     <Zap size={18} className="fill-white" aria-hidden="true" />
-                    Cairkan Sekarang · Masuk Dulu
+                    Cairkan Sekarang
                 </Link>
             </div>
         </div>

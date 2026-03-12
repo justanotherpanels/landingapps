@@ -17,6 +17,7 @@ import {
     MessageCircle,
     CheckCircle2,
     Lock,
+    Scale,
     Smartphone,
     Info,
     ArrowRight
@@ -112,8 +113,9 @@ export default function AccountPage() {
                         <h3 className="text-gray-900 font-bold text-lg mb-4">Umum</h3>
                         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                             <MenuItem icon={<HelpCircle />} label="Pusat Bantuan" />
-                            <MenuItem icon={<Info />} label="Tentang PayLaterKu" />
-                            <MenuItem icon={<Lock />} label="Kebijakan Privasi" last />
+                            <MenuItem icon={<Info />} label="Tentang PayLaterKu" href="/page/about-us" />
+                            <MenuItem icon={<Scale />} label="Syarat & Ketentuan" href="/page/term" />
+                            <MenuItem icon={<Lock />} label="Kebijakan Privasi" href="/page/privacy" last />
                         </div>
                     </section>
 
@@ -161,11 +163,12 @@ type MenuItemProps = {
     value?: string;
     status?: string;
     last?: boolean;
+    href?: string;
 };
 
-function MenuItem({ icon, label, value, status, last }: MenuItemProps) {
-    return (
-        <button className={`w-full flex items-center justify-between p-5 hover:bg-gray-50 transition-colors group focus:outline-none ${!last ? 'border-b border-gray-50' : ''}`}>
+function MenuItem({ icon, label, value, status, last, href }: MenuItemProps) {
+    const content = (
+        <>
             <div className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-gray-500 group-hover:bg-orange-50 group-hover:text-orange-600 transition-colors">
                     {React.cloneElement(icon, { className: "w-5 h-5" } as any)}
@@ -183,6 +186,20 @@ function MenuItem({ icon, label, value, status, last }: MenuItemProps) {
                 )}
                 <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-orange-500 group-hover:translate-x-1 transition-all" />
             </div>
+        </>
+    );
+
+    if (href) {
+        return (
+            <Link href={href} className={`w-full flex items-center justify-between p-5 hover:bg-gray-50 transition-colors group focus:outline-none ${!last ? 'border-b border-gray-50' : ''}`}>
+                {content}
+            </Link>
+        );
+    }
+
+    return (
+        <button className={`w-full flex items-center justify-between p-5 hover:bg-gray-50 transition-colors group focus:outline-none ${!last ? 'border-b border-gray-50' : ''}`}>
+            {content}
         </button>
     );
 }

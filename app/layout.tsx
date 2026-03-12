@@ -90,8 +90,8 @@ export const metadata: Metadata = {
 
   // ─── App & Icons ─────────────────────────────────────────────
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
     apple: "/seo/pixel.png",
   },
 
